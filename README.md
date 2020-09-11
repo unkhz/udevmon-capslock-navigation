@@ -6,7 +6,10 @@ Interception plugin for mapping `capslock` to navigation keys near the home row:
 - k -> down
 - i -> up
 - l -> right
-- capslock up+down is translated to esc up+down
+- h -> home
+- ; -> end
+- backspace -> delete
+- capslock up+down is translated to esc up+down, unless other keys are pressed while capslock is down
 
 ## What is it?
 
@@ -45,19 +48,10 @@ sudo make install
 - JOB: "intercept -g $DEVNODE | udevmon-capslock-navigation | uinput -d $DEVNODE"
   DEVICE:
     EVENTS:
-      EV_KEY:
-        [
-          KEY_CAPSLOCK,
-          KEY_ESC,
-          KEY_I,
-          KEY_J,
-          KEY_K,
-          KEY_L,
-          KEY_LEFT,
-          KEY_DOWN,
-          KEY_UP,
-          KEY_RIGHT,
-        ]
+      EV_KEY: [KEY_CAPSLOCK, KEY_ESC, KEY_BACKSPACE, KEY_DELETE, 
+               KEY_H, KEY_I, KEY_J, KEY_K, KEY_L, KEY_SEMICOLON,
+               KEY_HOME, KEY_LEFT, KEY_DOWN, KEY_UP, KEY_RIGHT,
+               KEY_END]
 ```
 
 ### systemd

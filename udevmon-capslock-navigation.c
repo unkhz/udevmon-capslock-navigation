@@ -9,11 +9,13 @@ const struct input_event
     esc_up          = {.type = EV_KEY, .code = KEY_ESC,      .value = 0},
     esc_down        = {.type = EV_KEY, .code = KEY_ESC,      .value = 1},
     esc_repeat      = {.type = EV_KEY, .code = KEY_ESC,      .value = 2},
-
     capslock_up     = {.type = EV_KEY, .code = KEY_CAPSLOCK, .value = 0},
     capslock_down   = {.type = EV_KEY, .code = KEY_CAPSLOCK, .value = 1},
     capslock_repeat = {.type = EV_KEY, .code = KEY_CAPSLOCK, .value = 2},
 
+    h_up     = {.type = EV_KEY, .code = KEY_H, .value = 0},
+    h_down   = {.type = EV_KEY, .code = KEY_H, .value = 1},
+    h_repeat = {.type = EV_KEY, .code = KEY_H, .value = 2},
     i_up     = {.type = EV_KEY, .code = KEY_I, .value = 0},
     i_down   = {.type = EV_KEY, .code = KEY_I, .value = 1},
     i_repeat = {.type = EV_KEY, .code = KEY_I, .value = 2},
@@ -26,6 +28,16 @@ const struct input_event
     l_up     = {.type = EV_KEY, .code = KEY_L, .value = 0},
     l_down   = {.type = EV_KEY, .code = KEY_L, .value = 1},
     l_repeat = {.type = EV_KEY, .code = KEY_L, .value = 2},
+
+    backspace_up     = {.type = EV_KEY, .code = KEY_BACKSPACE, .value = 0},
+    backspace_down   = {.type = EV_KEY, .code = KEY_BACKSPACE, .value = 1},
+    backspace_repeat = {.type = EV_KEY, .code = KEY_BACKSPACE, .value = 2},
+    delete_up        = {.type = EV_KEY, .code = KEY_DELETE, .value = 0},
+    delete_down      = {.type = EV_KEY, .code = KEY_DELETE, .value = 1},
+    delete_repeat    = {.type = EV_KEY, .code = KEY_DELETE, .value = 2},
+    semicolon_up     = {.type = EV_KEY, .code = KEY_SEMICOLON, .value = 0},
+    semicolon_down   = {.type = EV_KEY, .code = KEY_SEMICOLON, .value = 1},
+    semicolon_repeat = {.type = EV_KEY, .code = KEY_SEMICOLON, .value = 2},
 
     left_up      = {.type = EV_KEY, .code = KEY_LEFT,  .value = 0},
     left_down    = {.type = EV_KEY, .code = KEY_LEFT,  .value = 1},
@@ -127,7 +139,10 @@ int main(void)
             // Something other than capslock happened
             capslock_give_up = 1;
 
-            const struct input_event *mappings[12][2] = {
+            const struct input_event *mappings[21][2] = {
+                {&h_up, &home_up},
+                {&h_down, &home_down},
+                {&h_repeat, &home_repeat},
                 {&i_up, &up_up},
                 {&i_down, &up_down},
                 {&i_repeat, &up_repeat},
@@ -140,10 +155,16 @@ int main(void)
                 {&l_up, &right_up},
                 {&l_down, &right_down},
                 {&l_repeat, &right_repeat},
+                {&semicolon_up, &end_up},
+                {&semicolon_down, &end_down},
+                {&semicolon_repeat, &end_repeat},
+                {&backspace_up, &delete_up},
+                {&backspace_down, &delete_down},
+                {&backspace_repeat, &delete_repeat},
             };
 
             int broke = 0;
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < 21; i++)
             {
                 const struct input_event *from = mappings[i][0],
                                          *to = mappings[i][1];
