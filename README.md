@@ -1,14 +1,17 @@
 # udevmon-capslock-navigation
 
 Interception plugin for mapping `capslock` to navigation keys near the home row:
-j -> left
-k -> down
-i -> up
-l -> right
+
+- j -> left
+- k -> down
+- i -> up
+- l -> right
+- capslock up+down is translated to esc up+down
 
 ## What is it?
 
-Yet another plugin for interception tools to recreate some functionality of a MacOS karabiner setup.
+Yet another plugin for interception tools to recreate some functionality of a MacOS karabiner setup. The purpose is to
+recapture the useless caps-lock key for something useful. In this case it's the ESC key and arrow navigation.
 
 Built on top of these two existing plugins
 
