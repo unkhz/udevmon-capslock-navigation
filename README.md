@@ -1,29 +1,19 @@
-# s2arrows
+# udevmon-capslock-navigation
 
-Interception plugin for mapping `s`+`hjkl` keys to arrow keys.
-
-<a href="http://www.catonmat.net/blog/why-vim-uses-hjkl-as-arrow-keys/">
-    <img src="http://www.catonmat.net/images/why-vim-uses-hjkl/adm-3a-hjkl-keyboard.jpg" alt="ADM-3A terminal">
-</a>
+Interception plugin for mapping `capslock` to navigation keys near the home row:
+j -> left
+k -> down
+i -> up
+l -> right
 
 ## What is it?
 
-This is a plugin to migrate the second most useful feature of Karabiner for
-MacOSX to Linux. With this plugin enabled, `s` acts as a modifier key. While
-`s` is pressed, the `h` `j` `k` `l` keys act as arrow keys, following the VI
-key bindings.
+Yet another plugin for interception tools to recreate some functionality of a MacOS karabiner setup.
 
-It also makes the `s` + `f` combination as a different modifier that maps the
-`h`, `j`, `k` and `l` keys to `Home`, `Page Down`, `Page Up` and `End`
-respectively. This is very convenient for laptops since you will not be needing
-the fn combination anymore. And in general, it means your right hand will have
-to move even less often.
+Built on top of these two existing plugins
 
-## Why?
-
-It's so nice in VIM that you don't have to lift your right hand to move to the
-arrow keys. It would be great if you could do the same in all applications. In
-fact, once you get used to this, it's very hard to go back.
+- https://github.com/kbairak/s2arrows
+- https://gitlab.com/interception/linux/plugins/caps2esc
 
 ## Dependencies
 
@@ -32,8 +22,8 @@ fact, once you get used to this, it's very hard to go back.
 ## Building
 
 ```sh
-git clone git@github.com:kbairak/s2arrows
-cd s2arrows
+git clone git@github.com:unkhz/udevmon-capslock-navigation
+cd udevmon-capslock-navigation
 mkdir build
 cd build
 cmake ..
@@ -45,27 +35,26 @@ sudo make install
 
 ### udevmon
 
-`s2arrows` is an [_Interception Tools_][interception-tools] plugin. A suggested
+`udevmon-capslock-navigation` is an [_Interception Tools_][interception-tools] plugin. A suggested
 `udevmon` job configuration (`/etc/udevmon.yaml`) is:
 
 ```yaml
-- JOB: "intercept -g $DEVNODE | s2arrows | uinput -d $DEVNODE"
+- JOB: "intercept -g $DEVNODE | udevmon-capslock-navigation | uinput -d $DEVNODE"
   DEVICE:
     EVENTS:
-      EV_KEY: [KEY_S, KEY_H, KEY_J, KEY_K, KEY_K, KEY_LEFT, KEY_DOWN,
-               KEY_UP, KEY_RIGHT]
-```
-
-If you already have an [_Interception Tools_][interception-tools] plugin
-running, like, I don't know, [caps2esc][caps2esc], you should pipe the two
-commands to each other and append the keys to the list instead:
-
-```yaml
-- JOB: "intercept -g $DEVNODE | caps2esc | s2arrows | uinput -d $DEVNODE"
-  DEVICE:
-    EVENTS:
-      EV_KEY: [KEY_CAPSLOCK, KEY_ESC, KEY_S, KEY_H, KEY_J, KEY_K, KEY_K,
-               KEY_LEFT, KEY_DOWN, KEY_UP, KEY_RIGHT]
+      EV_KEY:
+        [
+          KEY_CAPSLOCK,
+          KEY_ESC,
+          KEY_I,
+          KEY_J,
+          KEY_K,
+          KEY_L,
+          KEY_LEFT,
+          KEY_DOWN,
+          KEY_UP,
+          KEY_RIGHT,
+        ]
 ```
 
 ### systemd
@@ -88,23 +77,8 @@ WantedBy=multi-user.target
 Then, you can enable and start the service like any other:
 
 ```sh
-sudo systemctl enable udevmon.service
-sudo systemctl start udevmon.service
+sudo systemctl enable --now udevmon.service
 ```
-
-## Caveats
-
-The main problem with using this plugin is that the `s` key might be
-interpreted as a modifier, when in fact you actually want to press `s`. This
-can happen when you type something like `ssh some_host` very fast. The `sh`
-part from the sentence might be interpreted as a press of the left arrow key
-and the end result may appear as ` some_hosts`. The same problem used to happen
-with Karabiner too. Over time, you will get used to letting an extra
-millisecond pass after every `s` key press.
-
-Another caveat is that with this plugin enabled, you lose the ability to hold
-the `s` key down and have the character repeat itself. From my experience, this
-has never been a problem for me.
 
 ## License
 
@@ -112,5 +86,6 @@ has never been a problem for me.
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/License_icon-mit-2.svg/120px-License_icon-mit-2.svg.png" alt="MIT">
 </a>
 
+[s2arrows]: https://github.com/kbairak/s2arrows
 [caps2esc]: https://gitlab.com/interception/linux/plugins/caps2esc
 [interception-tools]: https://gitlab.com/interception/linux/tools
